@@ -23,12 +23,21 @@ class CheckoutController extends Controller {
     }
 
     public function billingAction() {
-        $em = $this->getDoctrine()->getManager();
-        $billing = $em->getRepository($className);
+        if (is_null($this->getUser()->getBillingaddress())) {
+            
+        } else {
+            $billing = $this->getUser()->getBillingaddress();
+        }
         return $this->render('BookshopBookshopBundle:Checkout:billing.html.twig');
     }
 
     public function shippingAction() {
+        if (is_null($this->getUser()->getShippinggaddress())) {
+            
+        } else {
+            $billing = $this->getUser()->getShippingaddress();
+        }
+
         return $this->render('BookshopBookshopBundle:Checkout:shipping.html.twig');
     }
 
