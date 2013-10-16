@@ -1,0 +1,39 @@
+{% extends '::base.html.twig' %}
+
+{%block collayout%}
+<div class="main-container col2-left-layout">
+    <div class="main">
+    {% block body%}
+
+            <div class="col-main">
+        {% block fos_user_content %}
+        {% endblock %}
+                </div>
+
+        {% block leftsidebar%}
+
+                <div class="col-left sidebar">
+                    <div class="block block-account">
+                        <div class="block-title">
+                            <strong><span>My Account</span></strong>
+                        </div>
+                        <div class="block-content">
+                            <ul>
+                                <a href="{{path('dashboard_index')}}"><li class="current"> <strong>Account Dashboard</strong></li></a>
+                                <li><a href="{{path('fos_user_profile_show')}}">Account Information</a></li>
+                                <li><a href="#">My Orders</a></li>
+                                <li><a href="{{path('dashboard_billing_addr_preedit')}}">Billing address</a></li>
+                                <li class="last"><a href="{{path('dashboard_shipping_addr_preedit')}}">Shipping address</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- render cart -->
+            {{ render(controller('BookshopBookshopBundle:Cart:index')) }}
+                </div>
+
+        {% endblock leftsidebar%}
+
+    {% endblock %}
+            </div>
+        </div>
+{%endblock%}
