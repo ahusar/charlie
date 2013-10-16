@@ -1,18 +1,18 @@
 bookshop_bookshop_homepage:
-    pattern:  /
+    pattern: /
     defaults: { _controller: BookshopBookshopBundle:Default:index }
     
 category:
   pattern: category/{id}
   defaults: { _controller: BookshopBookshopBundle:Category:category}
   requirements:
-        _method:  GET
+        _method: GET
         id: \d+
 product:
   pattern: product/{id}
   defaults: { _controller: BookshopBookshopBundle:Product:product}
   requirements:
-        _method:  GET
+        _method: GET
         id: \d+
 search:
   pattern: search/
@@ -39,7 +39,7 @@ emtpycart:
   pattern: emptycart/{cartid}
   defaults: { _controller: BookshopBookshopBundle:Cart:emptycart}
   requirements:
-        _method:  GET
+        _method: GET
         id: \d+
 
 deleteproduct:
@@ -67,3 +67,44 @@ checkout:
 billing:
   pattern: checkout/billing
   defaults: { _controller: BookshopBookshopBundle:Checkout:billing}
+
+profile:
+  pattern: profile/min
+  defaults: { _controller: BookshopBookshopBundle:Profile:showMinim}
+  
+dashboard_index:
+  pattern: dashboard/
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:index}
+
+
+dashboard_billing_address_show:
+  pattern: dashboard/billingAddress
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:billingAddressShow}
+
+dashboard_billing_addr_preedit:
+  pattern: dashboard/billingAddress/preedit
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:billingAddressPreEdit}
+  
+dashboard_billing_addr_new_edit:
+  pattern: dashboard/billingAddress/edit
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:billingAddressEdit}
+  
+dashboard_billing_addr_edit:
+  pattern: dashboard/billingAddress/edit
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:billingAddressEdit}
+  requirements:
+    _method: POST
+    
+dashboard_shipping_addr_preedit:
+  pattern: dashboard/shippingAddress/preedit
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:shippingAddressPreEdit}
+  
+dashboard_shipping_addr_new_edit:
+  pattern: dashboard/shippingAddress/edit
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:shippingAddressEdit}
+  
+dashboard_shipping_addr_edit:
+  pattern: dashboard/shippingAddress/edit
+  defaults: { _controller: BookshopBookshopBundle:Dashboard:shippingAddressEdit}
+  requirements:
+    _method: POST

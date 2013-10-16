@@ -11,7 +11,7 @@
         </div>
 
         <div class="actions">
-            <button type="button" title="Checkout" onclick=" window.location.href = '{{ path('checkout') }}'"  class="button" ><span><span>Checkout</span></span></button>
+            <button type="button" title="Checkout" onclick=" window.location.href = '{{ path('checkout') }}'" class="button" ><span><span>Checkout</span></span></button>
         </div>
 
         <p class="block-subtitle">Recently added item(s)</p>
@@ -28,7 +28,7 @@
                         <a href="{{path('mycart')}}" title="Edit item" class="btn-edit">Edit item</a>
                         <p class="product-name"><a href="{{path('product',{'id':items[i].productId.id})}}">{{items[i].title}}</a></p>
                         <strong>{{items[i].quantity}}</strong> x
-                        <span class="price">{{items[i].productId.price}} US$</span>
+                        <span class="price">{{items[i].productId.price}} US$</span>
                     </div>
                 </li>
                 {% endif %}
