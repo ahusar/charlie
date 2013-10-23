@@ -23,8 +23,40 @@ class CheckoutController extends Controller {
     }
 
     public function billingAction() {
-        if (is_null($this->getUser()->getBillingaddress())) {
-            
+        if (!$this->getUser()) {
+            $this->getRequest()->getSession()->getFlashBag()->add('error', "Please login before checkout!");
+            $url = $this->getRequest()->headers->get("referer");
+            return new RedirectResponse($url);
+        }
+        $user = $this->getUser();
+        $userid = $this->getUser()->getID();
+
+        $em = $this->getDoctrine()->getManager();
+        $cart = $em->getRepository('BookshopBookshopBundle:Cart')->getCart($userid);
+        $order = $em->getRepository('BookshopBookshopBundle:BookshopOrder')->getCurrentOrder($userid, $cart[0]->getId());
+        $address = new Address();
+        if ($user->getBillingAddress()) {
+            $address = $user->getBillingAddress();
+        }
+        $request = $this->getRequest();
+
+        $form = $this->createForm(new CheckoutBillingFormType(), $address);
+        if ($request->getMethod() == 'POST') {
+            $form->bind($request);
+        }
+
+        if ($form->isValid()) {
+            $em->persist($address);
+            $em->flush($address);
+            var_dump($order);
+            die();
+
+            $order->setBillingAddress($address);
+            if ($address->getShippToThis())
+                $order->setShippingAddress($address);
+            $order->setCart($cart);
+            $em->persist($order);
+            $em->flush($order);
         } else {
             $billing = $this->getUser()->getBillingaddress();
         }
