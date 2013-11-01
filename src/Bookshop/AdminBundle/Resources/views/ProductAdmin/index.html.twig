@@ -26,7 +26,7 @@
                     <table border="0" cellpadding="0" cellspacing="0"  id="id-form">
                         <tr>
                             <th valign="top">Product title:</th>
-                            <td><input type="text" name="title" class="inp-form" value="{% if 'title' in app.request.requesturi %}{{ app.request.query.all['title']}}{% endif %}"/></td>
+                            <td><input type="text" name="title" class="inp-form" value="{% if 'title' in app.request.query.all|keys %}{{ app.request.query.all['title']}}{% endif %}"/></td>
                             <td></td>
                         </tr>
                         <tr>

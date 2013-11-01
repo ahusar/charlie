@@ -32,18 +32,18 @@ class BookshopOrderRepository extends EntityRepository {
         return $qb->getQuery()
                         ->getResult();
     }
-
-    public function getCurrentOrder($userID) {
+    
+    public function getCurrentOrder($userID){
         $em = $this->getEntityManager();
-
+        
         $cart = $em->getRepository('BookshopBookshopBundle:Cart')->getCart($userID);
         $qb = $this->createQueryBuilder("o")
                 ->select('o')->where('o.user = :userID AND o.cart = :cartID')
                 ->setParameter("userID", $userID)
                 ->setParameter("cartID", $cart->getId());
-
+                
         $result = $qb->getQuery()->getResult();
-        if (count($result) > 0)
+        if(count($result) >0)
             return $result[0];
         else
             return null;
@@ -58,8 +58,13 @@ class BookshopOrderRepository extends EntityRepository {
                     WHERE 1=1' . $filter)
                         ->getSingleScalarResult();
     }
-
-    public function getAllOrdersQuery($filter, $count) {
+    
+    public function getAllOrdersQuery($request)
+    {   
+        $filter = $this->createSqlFilter($request);
+        
+        $count = $this->getNrAllOrders($filter);
+        
         $em = $this->getEntityManager();
         $dql = "SELECT o FROM BookshopBookshopBundle:BookshopOrder o 
                     INNER JOIN BookshopBookshopBundle:User u WITH u = o.user 
@@ -86,22 +91,22 @@ class BookshopOrderRepository extends EntityRepository {
         return $qb->getQuery()
                         ->getSingleResult();
     }
-
-    private function createSqlFilter($request) {
+    
+    private function createSqlFilter($request){
         $filter = "";
-        if (strlen($request->query->get('username')) > 0) {
+        if (strlen($request->query->get('username'))>0) {
             $filter.= " AND u.username like '%" . $request->query->get('username') . "%'";
         }
-        if (strlen($request->query->get('state')) > 0) {
+        if (strlen($request->query->get('state'))>0) {
             $filter.= " AND s.id = " . $request->query->get('state');
         }
 
-        if (strlen($request->query->get('created')) > 0) {
-            $created = $request->query->get('created');
+        if (strlen($request->query->get('created'))>0){
+            $created  = $request->query->get('created');
             $now = new \DateTime();
             $nowStr = $now->format("Y-m-d");
             $oneYearAgoStr = date("Y-m-d", strtotime(date("Y-m-d", strtotime($nowStr)) . " - 1 year"));
-
+            
             switch ($created) {
                 case 'all':
                     break;
