@@ -19,7 +19,7 @@ class CartRepository extends EntityRepository {
                 ->setParameter('userid', $userid);
 
         $results = $qb->getQuery()->getResult();
-        if(count($results)>0)
+        if (count($results) > 0)
             return $results[0];
         else
             return null;
@@ -40,37 +40,39 @@ class CartRepository extends EntityRepository {
                 ->where('c.id = :cartid')
                 ->setParameter('cartid', $cartid);
 
-        return $qb->getQuery()
-                        ->getResult();
+        $result = $qb->getQuery()->getResult();
+        if (count($result) > 0)
+            return $result[0];
+        else
+            return null;
     }
-    
-    public function putOnStock($id)
-    {
+
+    public function putOnStock($id) {
         $em = $this->getEntityManager();
         $cart = $em->getRepository('BookshopBookshopBundle:Cart')->find($id);
-        
-        foreach ($cart->getCartitems() as $item){
+
+        foreach ($cart->getCartitems() as $item) {
             $product = $item->getProductId();
             $em->getRepository('BookshopBookshopBundle:Product')->addStock($product->getId(), $item->getQuantity());
         }
     }
-    
-    public function takeFromStock($id)
-    {
+
+    public function takeFromStock($id) {
         $em = $this->getEntityManager();
         $cart = $em->getRepository('BookshopBookshopBundle:Cart')->find($id);
-        
-        foreach ($cart->getCartitems() as $item){
+
+        foreach ($cart->getCartitems() as $item) {
             $product = $item->getProductId();
             $onStock = $em->getRepository('BookshopBookshopBundle:Product')->isOnStock($product->getId(), $item->getQuantity());
-            if(!$onStock) 
+            if (!$onStock)
                 return false;
         }
-        
-        foreach ($cart->getCartitems() as $item){
+
+        foreach ($cart->getCartitems() as $item) {
             $product = $item->getProductId();
             $em->getRepository('BookshopBookshopBundle:Product')->addStock($product->getId(), -$item->getQuantity());
         }
         return true;
     }
+
 }

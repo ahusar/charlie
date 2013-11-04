@@ -36,7 +36,6 @@
                     <tbody>
                     {% if orders|length > 0 %}
                     {% for order in orders %}
-
                             <tr class="first last odd">
                                 <td>{{"%1$08d"|format(order.id)}}</td>
                                 <td><span class="nobr">{{order.date|date('Y-m-d')}}</span></td>

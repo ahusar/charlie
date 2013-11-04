@@ -109,7 +109,7 @@ class ProductRepository extends EntityRepository {
         $filter = '';
 
         if (strlen($request->get('q')) > 0) {
-            $filter .= "AND a.title like '%" . $request->get('q') . "%'";
+            $filter .= "a.title like '%" . $request->get('q') . "%'";
         }
 
         if (strlen($request->get('stock')) > 0)

@@ -125,7 +125,7 @@ class CartController extends Controller
                 $cartitem->setTitle($product->getTitle());
                 $cartitem->setQuantity($quantity);
                 $cartitem->setProductId($product);
-                $cartitem->setCartId($cart[0]);
+                $cartitem->setCartId($cart);
                 $em->persist($cartitem);
                 $em->flush();
             } else {
@@ -213,7 +213,7 @@ class CartController extends Controller
             $userid = $this->getUser()->getID();
         $em = $this->getDoctrine()->getManager();
         $cart = $em->getRepository('BookshopBookshopBundle:Cart')->getCartbyId($cartid);
-        if ($userid != $cart[0]->getUserID()) {
+        if ($userid != $cart->getUserID()) {
             return 0;
         } else {
             return 1;
